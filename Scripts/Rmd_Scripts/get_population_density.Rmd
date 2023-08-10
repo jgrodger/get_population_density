@@ -67,8 +67,7 @@ write_rds(popn, file = here("./Data/Processed_Data/human_popn.rds"))
 
 f <- file.path(here(), "Data/Processed_Data/human_population.tif")
 
-writeRaster(popn, f, overwrite=TRUE, gdal=c("COMPRESS=NONE", "TFW=YES"), datatype='FLT8U')
-## remove the file
-unlink(f)
+writeRaster(popn, f, overwrite=TRUE, gdal=c("COMPRESS=NONE", "TFW=YES"), datatype='FLT8S')
+
 
 ```
