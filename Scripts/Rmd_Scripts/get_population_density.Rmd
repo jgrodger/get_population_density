@@ -1,0 +1,74 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+here::i_am("Scripts/Rmd_Scripts/get_population_density.Rmd")
+
+library(tidyverse)
+library(terra)
+library(sgo)
+library(here)
+```
+
+### Load data
+```{r}
+
+#Data from https://hub.worldpop.org/geodata/summary?id=44432 
+(
+  popn <- rast(here("./Data/Input_Data/gbr_pd_2017_1km.tif"))
+)
+
+
+```
+
+## plot
+```{r}
+plot(popn)
+```
+
+## reproject
+```{r}
+popn <- project(popn, "EPSG:27700")
+```
+
+## function to add ngr
+```{r}
+
+
+add.ngr<- function(data){
+ points <- sgo_points(data, coords = c("x", "y"), epsg=27700)
+points2 <- sgo_bng_ngr(points, digits = 4)
+data <- data %>%
+  mutate(ngr.1km = points2$ngr) %>%
+  mutate(ngr.1km =  str_replace_all(ngr.1km, " ", ""))
+  return(data)
+}
+```
+
+
+#make into a dataframe and add ngr to popn
+```{r}
+# get data frame from SpatRaster
+popn.df <- as.data.frame(popn, xy = TRUE)
+
+popn.df <- add.ngr(popn.df)
+
+
+```
+
+## Write processed data
+```{r}
+
+write_rds(popn, file = here("./Data/Processed_Data/human_popn.rds"))
+
+
+f <- file.path(here(), "Data/Processed_Data/human_population.tif")
+
+writeRaster(popn, f, overwrite=TRUE, gdal=c("COMPRESS=NONE", "TFW=YES"), datatype='FLT8U')
+## remove the file
+unlink(f)
+
+```
