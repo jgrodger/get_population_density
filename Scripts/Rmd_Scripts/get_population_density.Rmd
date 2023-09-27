@@ -62,7 +62,7 @@ popn.df <- add.ngr(popn.df)
 ## Write processed data
 ```{r}
 
-write_rds(popn, file = here("./Data/Processed_Data/human_popn.rds"))
+write_rds(popn.df, file = here("./Data/Processed_Data/human_popn.rds"))
 
 
 f <- file.path(here(), "Data/Processed_Data/human_population.tif")
