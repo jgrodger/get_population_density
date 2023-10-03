@@ -27,11 +27,14 @@ library(here)
 ## plot
 ```{r}
 plot(popn)
+check <- as.data.frame(popn)
 ```
 
 ## reproject
 ```{r}
-popn <- project(popn, "EPSG:27700")
+popn <- project(popn, "EPSG:27700",  res = 1000, method = "bilinear", threads = TRUE)
+popn
+plot(popn)
 ```
 
 ## function to add ngr
