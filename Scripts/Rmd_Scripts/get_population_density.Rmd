@@ -37,6 +37,17 @@ popn
 plot(popn)
 ```
 
+```{r}
+log_popn <- log10(popn)
+```
+
+
+```{r}
+
+plot(log_popn)
+```
+
+
 ## function to add ngr
 ```{r}
 
@@ -59,7 +70,9 @@ popn.df <- as.data.frame(popn, xy = TRUE)
 
 popn.df <- add.ngr(popn.df)
 
+log10.popn.df <- as.data.frame(log_popn, xy = TRUE)
 
+log10.popn.df <- add.ngr(popn.df)
 ```
 
 ## Write processed data
@@ -68,9 +81,15 @@ popn.df <- add.ngr(popn.df)
 write_rds(popn.df, file = here("./Data/Processed_Data/human_popn.rds"))
 
 
+write_rds(log10.popn.df, file = here("./Data/Processed_Data/log10_human_popn.rds"))
+
 f <- file.path(here(), "Data/Processed_Data/human_population.tif")
+
 
 writeRaster(popn, f, overwrite=TRUE, gdal=c("COMPRESS=NONE", "TFW=YES"), datatype='FLT8S')
 
+f1 <- file.path(here(), "Data/Processed_Data/log10_human_popn.tif")
+
+writeRaster(log_popn, f1, overwrite=TRUE, gdal=c("COMPRESS=NONE", "TFW=YES"), datatype='FLT8S')
 
 ```
