@@ -72,7 +72,7 @@ popn.df <- add.ngr(popn.df)
 
 log10.popn.df <- as.data.frame(log_popn, xy = TRUE)
 
-log10.popn.df <- add.ngr(popn.df)
+log10.popn.df <- add.ngr(log10.popn.df)
 ```
 
 ## Write processed data
